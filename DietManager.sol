@@ -26,7 +26,7 @@ contract DietManager {
         //uint value;
         address buyer;
         //uint finalizes; //Timestamp offer finalizes
-        uint8 status; // 0: Undefined, 1: Created, 2:Accepted
+        uint8 status; // 0: Undefined, 1: Created, 2:Accepted, 3:Completed
     }
     
     Listing[] public listings;
@@ -114,9 +114,10 @@ contract DietManager {
         //paySeller
         //offer.seller.transfer(offer.value);
         listing.seller.transfer(msg.value);
+        offer.status = 3;
         //listing.seller.transfer(value);
         emit OfferFinalized(msg.sender, listingID, offerID, _ipfsHash);
-        delete offers[listingID][offerID];
+        //delete offers[listingID][offerID];
     }
     
     function addData1(string ipfsHash) public {
