@@ -26,7 +26,7 @@ contract DietManager {
         //uint value;
         address buyer;
         //uint finalizes; //Timestamp offer finalizes
-        uint8 status; // 0: Undefined, 1: Created, 2:Accepted, 3:Completed
+        uint8 status; // 0: Undefined, 1: Created, 2:Completed
     }
     
     Listing[] public listings;
@@ -54,7 +54,7 @@ contract DietManager {
         emit ListingCreated(_seller, listings.length-1, _ipfsHash);
     }
     
-    function updateListing(
+    /*function updateListing(
         uint listingID,
         string _ipfsHash) public {    
         _updateListing(msg.sender, listingID, _ipfsHash);
@@ -73,10 +73,10 @@ contract DietManager {
         emit ListingUpdated(listing.seller, listingID, _ipfsHash);             
     }
     
-    
+    */
     function makeOffer(
         uint listingID,
-        string _ipfsHash
+        string _ipfsHash  // IPFS hash containing offer data
         //uint _finalizes,
         /*uint _value*/) public payable {
         
@@ -91,7 +91,7 @@ contract DietManager {
    
     }
     
-    function acceptOffer(uint listingID, uint offerID, string _ipfsHash) public {
+/*     function acceptOffer(uint listingID, uint offerID, string _ipfsHash) public {
         Listing storage listing = listings[listingID];
         Offer storage offer = offers[listingID][offerID];
         require(msg.sender == listing.seller, "Seller must accept"); 
@@ -101,7 +101,7 @@ contract DietManager {
         offer.status = 2;
         
         emit OfferAccepted(msg.sender, listingID, offerID, _ipfsHash);
-    }
+    } */
     
     function finalize(uint listingID, uint offerID, string _ipfsHash) public payable {
         Listing storage listing = listings[listingID];
@@ -109,12 +109,14 @@ contract DietManager {
         // if(now <= offer.finalizes){
         //     require(msg.sender == offer.buyer,"Only buyer can finalize");
         // }
+
         require(msg.sender == offer.buyer, "Only buyer can finalize");
-        require(offer.status == 2, "status != accepted");
+        //offer.status = 2;
+        require(offer.status == 1, "status != created");
         //paySeller
         //offer.seller.transfer(offer.value);
         listing.seller.transfer(msg.value);
-        offer.status = 3;
+        offer.status = 2;
         //listing.seller.transfer(value);
         emit OfferFinalized(msg.sender, listingID, offerID, _ipfsHash);
         //delete offers[listingID][offerID];
