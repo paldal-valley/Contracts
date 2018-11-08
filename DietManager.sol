@@ -1,12 +1,9 @@
 pragma solidity ^0.4.24;
 
-//import "../../../../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-
-
 contract DietManager {
     
 
-    event DietData(address indexed party, string ipfsHash); //party ---> msg.sender라고 생각하면 될 듯
+    event DietData(address indexed party, string ipfsHash); //party ---> msg.sender
     event ListingCreated(address indexed party, uint indexed listingID, string ipfsHash);
     event ListingUpdated(address indexed party, uint indexed listingID, string ipfsHash);
     event ListingData(address indexed party, uint indexed listingID, string ipfsHash);    
